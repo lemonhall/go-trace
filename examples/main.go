@@ -1,10 +1,10 @@
 package main
 
-import "../plugins/live"
-import "../plugins/json"
+import "github.com/tj/go-trace/plugins/live"
+import "github.com/tj/go-trace/plugins/json"
+import "github.com/tj/go-trace"
 import "math/rand"
 import "time"
-import ".."
 
 type Trace struct {
 	Name   string    `json:"name"`
