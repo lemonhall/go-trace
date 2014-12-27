@@ -1,6 +1,7 @@
 package trace
 
-// import "github.com/bmizerany/assert"
+import "github.com/bmizerany/assert"
+import "./plugins/json"
 import "testing"
 import "bytes"
 
@@ -10,13 +11,19 @@ type Event struct {
 }
 
 func TestEmit(t *testing.T) {
-	w := bytes.NewBuffer(nil)
+	buf := bytes.NewBuffer(nil)
 
 	trace := New()
-	trace.Use(writer{w})
+	trace.Use(json.New(buf))
 
-	trace.Emit(Event{"foo", "bar"})
-	trace.Emit(Event{"bar", "baz"})
+	trace.Emit(Event{"one", "1"})
+	trace.Emit(Event{"two", "2"})
+	trace.Emit(Event{"three", "3"})
 
-	println(string(w.Bytes()))
+	exp := `{"Some":"one","Data":"1"}
+{"Some":"two","Data":"2"}
+{"Some":"three","Data":"3"}
+`
+
+	assert.Equal(t, exp, string(buf.Bytes()))
 }
