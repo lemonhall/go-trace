@@ -47,21 +47,21 @@ type Plugin interface {
 	HandleEvent(e interface{})
 }
 
-// stdio writer plugin.
-type stdio struct {
+// writer plugin.
+type writer struct {
 	io.Writer
 }
 
 // Stdio plugin outputting JSON to stderr.
-var Stdio = stdio{os.Stderr}
+var Stdio = writer{os.Stderr}
 
 // Name implementation.
-func (p stdio) Name() string {
+func (p writer) Name() string {
 	return "stdio"
 }
 
 // HandleEvent implementation.
-func (p stdio) HandleEvent(e interface{}) {
+func (p writer) HandleEvent(e interface{}) {
 	err := json.NewEncoder(p).Encode(e)
 	if err != nil {
 		log.Printf("trace: failed to encode json: %s", err)
