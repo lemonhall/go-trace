@@ -5,7 +5,7 @@ type Plugin interface {
 	HandleEvent(e interface{})
 }
 
-// New tracer.
+// Tracer.
 type Tracer struct {
 	events  chan interface{}
 	plugins []Plugin
