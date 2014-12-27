@@ -27,3 +27,10 @@ func TestEmit(t *testing.T) {
 
 	assert.Equal(t, exp, string(buf.Bytes()))
 }
+
+func BenchmarkEmitNoPlugins(b *testing.B) {
+	t := New()
+	for i := 0; i < b.N; i++ {
+		t.Emit(0)
+	}
+}
