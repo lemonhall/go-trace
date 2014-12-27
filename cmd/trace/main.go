@@ -10,9 +10,9 @@ var Version = "0.0.1"
 
 const Usage = `
   Usage:
-    got <name> [--json]
-    got -h | --help
-    got --version
+    trace <name> [--json]
+    trace -h | --help
+    trace --version
 
   Options:
     -j, --json       output events as json
