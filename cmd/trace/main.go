@@ -10,12 +10,11 @@ var Version = "0.0.1"
 
 const Usage = `
   Usage:
-    trace <name> [--json]
+    trace <name>
     trace -h | --help
     trace --version
 
   Options:
-    -j, --json       output events as json
     -h, --help       output help information
     -v, --version    output version
 
@@ -28,7 +27,6 @@ func main() {
 	}
 
 	name := args["<name>"].(string)
-	asJSON := args["--json"].(bool)
 
 	c, err := live.Dial(name)
 	if err != nil {
@@ -36,13 +34,11 @@ func main() {
 	}
 	defer c.Close()
 
-	if asJSON {
-		enc := json.NewEncoder(os.Stdout)
-		for c.Next() {
-			err := enc.Encode(c.Event)
-			if err != nil {
-				log.Fatalf("failed to write: %s", err)
-			}
+	enc := json.NewEncoder(os.Stdout)
+	for c.Next() {
+		err := enc.Encode(c.Event)
+		if err != nil {
+			log.Fatalf("failed to write: %s", err)
 		}
 	}
 
