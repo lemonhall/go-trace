@@ -1,9 +1,9 @@
 package trace
 
-import "encoding/json"
-import "log"
-import "os"
-import "io"
+// Plugin interface.
+type Plugin interface {
+	HandleEvent(e interface{})
+}
 
 // New tracer.
 type Tracer struct {
@@ -38,32 +38,5 @@ func (t *Tracer) start() {
 		for _, plugin := range t.plugins {
 			plugin.HandleEvent(e)
 		}
-	}
-}
-
-// Plugin interface for handling events.
-type Plugin interface {
-	Name() string
-	HandleEvent(e interface{})
-}
-
-// writer plugin.
-type writer struct {
-	io.Writer
-}
-
-// Stdio plugin outputting JSON to stderr.
-var Stdio = writer{os.Stderr}
-
-// Name implementation.
-func (p writer) Name() string {
-	return "stdio"
-}
-
-// HandleEvent implementation.
-func (p writer) HandleEvent(e interface{}) {
-	err := json.NewEncoder(p).Encode(e)
-	if err != nil {
-		log.Printf("trace: failed to encode json: %s", err)
 	}
 }

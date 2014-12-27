@@ -1,6 +1,7 @@
 package main
 
 import "../plugins/live"
+import "../plugins/json"
 import "math/rand"
 import "time"
 import ".."
@@ -14,7 +15,7 @@ type Trace struct {
 
 func main() {
 	t := trace.New()
-	t.Use(trace.Stdio)
+	t.Use(json.Stdio)
 	t.Use(live.New("example"))
 
 	go func() {

@@ -84,11 +84,6 @@ func (s *Server) Path() string {
 	return fmt.Sprintf("/tmp/%s", s.name)
 }
 
-// Name implementation.
-func (s *Server) Name() string {
-	return "server"
-}
-
 // HandleEvent implementation.
 func (s *Server) HandleEvent(e interface{}) {
 	if atomic.LoadInt32(&s.clients) > 0 {
