@@ -7,10 +7,10 @@ import "math/rand"
 import "time"
 
 type Trace struct {
-	Name   string    `json:"name"`
-	Start  time.Time `json:"start"`
-	Finish time.Time `json:"finish"`
-	Path   string    `json:"path"`
+	Name   string
+	Start  time.Time
+	Finish time.Time
+	Path   string
 }
 
 func main() {
