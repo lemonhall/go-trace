@@ -32,16 +32,7 @@ func main() {
 	out := identity
 
 	if s, ok := args["--format"].(string); ok {
-		tmpl := template.Must(template.New("format").Parse(s))
-		out = func(e interface{}) error {
-			err := tmpl.Execute(os.Stdout, e)
-			if err != nil {
-				return err
-			}
-
-			_, err = os.Stdout.WriteString("\n")
-			return err
-		}
+		out = format(s)
 	}
 
 	c, err := live.Dial(name)
@@ -59,6 +50,20 @@ func main() {
 
 	if c.Error != nil {
 		log.Fatalf("failed to read: %s", c.Error)
+	}
+}
+
+func format(s string) func(e interface{}) error {
+	tmpl := template.Must(template.New("format").Parse(s))
+
+	return func(e interface{}) error {
+		err := tmpl.Execute(os.Stdout, e)
+		if err != nil {
+			return err
+		}
+
+		_, err = os.Stdout.WriteString("\n")
+		return err
 	}
 }
 
